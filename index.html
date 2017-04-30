@@ -42,11 +42,12 @@
     </thead>
     <tbody>
       <tr>
-        <td id="name-display">John</td>
-        <td id="destination-display">Doe</td>
-        <td id="frequency-display">john@example.com</td>
-        <td>Doe</td>
-        <td id="trainTime-display">john@example.com</td>
+        <td id="name-display"></td>
+        <td id="destination-display"></td>
+        <td id="frequency-display"></td>
+        <td id="trainTime-display"></td>
+        <td id="minutes-awaydisplay"></td>
+        
       </tr>
       <tr>
         <td>Mary</td>
@@ -139,6 +140,9 @@ database.ref().on("value", function(snapshot) {
   console.log(snapshot.val().Frequency);
   // Change the HTML to reflect
 $("#name-display").html(snapshot.val().trainName);
+$("#destination-display").html(snapshot.val().destination);
+$("#frequency-display").html(snapshot.val().Frequency);
+$("#trainTime-display").html(snapshot.val().trainTime);
 })
 </script>
 </html>
