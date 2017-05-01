@@ -40,7 +40,7 @@
         <th>Minutes Away</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="train-table">
       <tr>
         <td id="name-display"></td>
         <td id="destination-display"></td>
@@ -49,20 +49,7 @@
         <td id="minutes-awaydisplay"></td>
         
       </tr>
-      <tr>
-        <td>Mary</td>
-        <td>Moe</td>
-        <td>mary@example.com</td>
-        <td>Doe</td>
-        <td>john@example.com</td>
-      </tr>
-      <tr>
-        <td>July</td>
-        <td>Dooley</td>
-        <td>july@example.com</td>
-        <td>Doe</td>
-        <td>john@example.com</td>
-      </tr>
+      
     </tbody>
   </table>
 </div>
@@ -139,10 +126,11 @@ database.ref().on("value", function(snapshot) {
   console.log(snapshot.val().trainTime);
   console.log(snapshot.val().Frequency);
   // Change the HTML to reflect
-$("#name-display").html(snapshot.val().trainName);
-$("#destination-display").html(snapshot.val().destination);
-$("#frequency-display").html(snapshot.val().Frequency);
-$("#trainTime-display").html(snapshot.val().trainTime);
+$("#train-table").append("<tr class='new-row'>" + "<td>" + snapshot.val().trainName + "</td>" + "<td>" + snapshot.val().destination + "</td>" + "<td>" + snapshot.val().Frequency + "</td>" + "</tr>"); 
+//$("#name-display").html(snapshot.val().trainName);
+//$("#destination-display").html(snapshot.val().destination);
+//$("#frequency-display").html(snapshot.val().Frequency);
+//$("#trainTime-display").html(snapshot.val().trainTime);
 })
 </script>
 </html>
