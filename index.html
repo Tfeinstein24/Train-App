@@ -14,6 +14,8 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- Moment. js -->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
 </head>
 <body>
@@ -72,7 +74,7 @@
     </div>
     <div class="form-group">
       <label for="pwd">Frequency (min)</label>
-      <input id="frequency-input" type="text" class="form-control" id="pwd">
+      <input id="frequency-input" type="number" class="form-control" id="pwd">
     </div>
     <div class="submit-button">
     	<button id="add-train" type="submit" class="btn btn-default">Submit</button>
@@ -100,7 +102,13 @@
   var trainName = "";
   var destination = "";
   var trainTime = 0;
-  var Frequency = "";
+  var Frequency = 0;
+  var currentTime = "";
+  // Experiment with Moment.js
+  currentTime = moment();
+  console.log(currentTime);
+  
+  
   // Capture Button Click
 $("#add-train").on("click", function() {
   //Don't refresh the page
