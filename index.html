@@ -74,7 +74,7 @@
     </div>
     <div class="form-group">
       <label for="pwd">Frequency (min)</label>
-      <input id="frequency-input" type="number" class="form-control" id="pwd">
+      <input id="frequency-input" type="text" class="form-control" id="pwd">
     </div>
     <div class="submit-button">
     	<button id="add-train" type="submit" class="btn btn-default">Submit</button>
@@ -104,8 +104,19 @@
   var trainTime = 0;
   var Frequency = 0;
   var currentTime = "";
+
   // Experiment with Moment.js
-    // First Time (pushed back 1 year to make sure it comes before current time)
+    
+  // Capture Button Click
+$("#add-train").on("click", function() {
+  //Don't refresh the page
+  event.preventDefault();
+  //Code logic for storing and retrieving info from database
+  trainName = $("#train-input").val().trim();
+  destination = $("#destination-input").val().trim();
+  trainTime = $("#trainTime-input").val().trim();
+  Frequency = $("#frequency-input").val().trim();
+  // First Time (pushed back 1 year to make sure it comes before current time)
     var firstTimeConverted = moment(trainTime, "hh:mm").subtract(1, "years");
     console.log(firstTimeConverted);
     // Current Time
@@ -123,20 +134,14 @@
     // Next Train
     var nextTrain = moment().add(tMinutesTillTrain, "minutes");
     console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
-  // Capture Button Click
-$("#add-train").on("click", function() {
-  //Don't refresh the page
-  event.preventDefault();
-  //Code logic for storing and retrieving info from database
-  trainName = $("#train-input").val().trim();
-  destination = $("#destination-input").val().trim();
-  trainTime = $("#trainTime-input").val().trim();
-  Frequency = $("#frequency-input").val().trim();
+    nextTrain = $("#trainTime-display").val().trim();
   database.ref().set({
     trainName: trainName,
     destination: destination,
     trainTime: trainTime,
     Frequency: Frequency,
+    nextTrain: nextTrain,
+    
   });
 });
 // Firebase watcher + initial loader
@@ -147,8 +152,10 @@ database.ref().on("value", function(snapshot) {
   console.log(snapshot.val().destination);
   console.log(snapshot.val().trainTime);
   console.log(snapshot.val().Frequency);
+  console.log(snapshot.val().nextTrain);
+  
   // Change the HTML to reflect
-$("#train-table").append("<tr class='new-row'>" + "<td>" + snapshot.val().trainName + "</td>" + "<td>" + snapshot.val().destination + "</td>" + "<td>" + snapshot.val().Frequency + "</td>" + "</tr>"); 
+$("#train-table").append("<tr class='new-row'>" + "<td>" + snapshot.val().trainName + "</td>" + "<td>" + snapshot.val().destination + "</td>" + "<td>" + snapshot.val().Frequency + "</td>" + "<td>" + snapshot.val().nextTrain + "</td>" + "</tr>"); 
 //$("#name-display").html(snapshot.val().trainName);
 //$("#destination-display").html(snapshot.val().destination);
 //$("#frequency-display").html(snapshot.val().Frequency);
