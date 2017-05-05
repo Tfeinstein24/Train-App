@@ -104,6 +104,8 @@
   var trainTime = 0;
   var Frequency = 0;
   var currentTime = "";
+  var nextTrain = 0;
+  var tMinutesTillTrain = 0;
 
   // Experiment with Moment.js
     
@@ -131,6 +133,7 @@ $("#add-train").on("click", function() {
     // Minute Until Train
     var tMinutesTillTrain = Frequency - tRemainder;
     console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+    tMinutesTillTrain = $("#minutes-awaydisplay").val().trim();
     // Next Train
     var nextTrain = moment().add(tMinutesTillTrain, "minutes");
     console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
@@ -141,6 +144,7 @@ $("#add-train").on("click", function() {
     trainTime: trainTime,
     Frequency: Frequency,
     nextTrain: nextTrain,
+    tMinutesTillTrain: tMinutesTillTrain,
     
   });
 });
@@ -153,9 +157,10 @@ database.ref().on("value", function(snapshot) {
   console.log(snapshot.val().trainTime);
   console.log(snapshot.val().Frequency);
   console.log(snapshot.val().nextTrain);
+  console.log(snapshot.val().tMinutesTillTrain);
   
   // Change the HTML to reflect
-$("#train-table").append("<tr class='new-row'>" + "<td>" + snapshot.val().trainName + "</td>" + "<td>" + snapshot.val().destination + "</td>" + "<td>" + snapshot.val().Frequency + "</td>" + "<td>" + snapshot.val().nextTrain + "</td>" + "</tr>"); 
+$("#train-table").append("<tr class='new-row'>" + "<td>" + snapshot.val().trainName + "</td>" + "<td>" + snapshot.val().destination + "</td>" + "<td>" + snapshot.val().Frequency + "</td>" + "<td>" + moment(nextTrain).format("hh:mm") + "</td>" + "<td>" + tMinutesTillTrain + "</td>" + "</tr>"); 
 //$("#name-display").html(snapshot.val().trainName);
 //$("#destination-display").html(snapshot.val().destination);
 //$("#frequency-display").html(snapshot.val().Frequency);
