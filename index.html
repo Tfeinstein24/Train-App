@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Train Scheduler</title>
+  <title>Train Scheduler</title>
 
 <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
-			<!-- jQuery -->
+      <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -77,7 +77,7 @@
       <input id="frequency-input" type="text" class="form-control" id="pwd">
     </div>
     <div class="submit-button">
-    	<button id="add-train" type="submit" class="btn btn-default">Submit</button>
+      <button id="add-train" type="submit" class="btn btn-default">Submit</button>
     </div>
   </form>
 </div>
@@ -104,9 +104,8 @@
   var trainTime = 0;
   var Frequency = 0;
   var currentTime = "";
-  var nextTrain = 0;
-  var tMinutesTillTrain = 0;
-
+  var nextTrain = "";
+  var tMinutesTillTrain = "";
   // Experiment with Moment.js
     
   // Capture Button Click
@@ -135,18 +134,15 @@ $("#add-train").on("click", function() {
     console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
     tMinutesTillTrain = $("#minutes-awaydisplay").val().trim();
     // Next Train
-    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+    var nextTrain = moment().add(tMinutesTillTrain, 'minutes');
+  console.log("ARRIVAL TIME: " + moment(nextTrain).format('HH:mm A'));
     nextTrain = $("#trainTime-display").val().trim();
   database.ref().set({
     trainName: trainName,
     destination: destination,
     trainTime: trainTime,
     Frequency: Frequency,
-    nextTrain: nextTrain,
-    tMinutesTillTrain: tMinutesTillTrain,
-    
-  });
+    });
 });
 // Firebase watcher + initial loader
 database.ref().on("value", function(snapshot) {
@@ -156,8 +152,24 @@ database.ref().on("value", function(snapshot) {
   console.log(snapshot.val().destination);
   console.log(snapshot.val().trainTime);
   console.log(snapshot.val().Frequency);
-  console.log(snapshot.val().nextTrain);
-  console.log(snapshot.val().tMinutesTillTrain);
+
+  var firstTimeConverted = moment(trainTime, "hh:mm").subtract(1, "years");
+    console.log(firstTimeConverted);
+    // Current Time
+    var currentTime = moment();
+    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+    // Difference between the times
+    var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+    console.log("DIFFERENCE IN TIME: " + diffTime);
+    // Time apart (remainder)
+    var tRemainder = diffTime % Frequency;
+    console.log(tRemainder);
+    // Minute Until Train
+    var tMinutesTillTrain = Frequency - tRemainder;
+    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+    // Next Train
+    var nextTrain = moment().add(tMinutesTillTrain, 'minutes');
+  console.log("ARRIVAL TIME: " + moment(nextTrain).format('HH:mm A'));
   
   // Change the HTML to reflect
 $("#train-table").append("<tr class='new-row'>" + "<td>" + snapshot.val().trainName + "</td>" + "<td>" + snapshot.val().destination + "</td>" + "<td>" + snapshot.val().Frequency + "</td>" + "<td>" + moment(nextTrain).format("hh:mm") + "</td>" + "<td>" + tMinutesTillTrain + "</td>" + "</tr>"); 
