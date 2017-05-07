@@ -8,7 +8,6 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
       <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -17,13 +16,16 @@
     <!-- Moment. js -->
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+
 </head>
 <body>
 
 <div class="container">
   <div class="jumbotron">
-    <h1>Train Scheduler</h1> 
-    <p>Eurail Train Times</p> 
+    <h1>Train Scheduler</h1>  
   </div>
 </div>
 
@@ -157,7 +159,7 @@ database.ref().on("value", function(snapshot) {
     console.log(firstTimeConverted);
     // Current Time
     var currentTime = moment();
-    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+    console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm A"));
     // Difference between the times
     var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
     console.log("DIFFERENCE IN TIME: " + diffTime);
@@ -172,7 +174,7 @@ database.ref().on("value", function(snapshot) {
   console.log("ARRIVAL TIME: " + moment(nextTrain).format('HH:mm A'));
   
   // Change the HTML to reflect
-$("#train-table").append("<tr class='new-row'>" + "<td>" + snapshot.val().trainName + "</td>" + "<td>" + snapshot.val().destination + "</td>" + "<td>" + snapshot.val().Frequency + "</td>" + "<td>" + moment(nextTrain).format("hh:mm") + "</td>" + "<td>" + tMinutesTillTrain + "</td>" + "</tr>"); 
+$("#train-table").append("<tr class='new-row'>" + "<td>" + snapshot.val().trainName + "</td>" + "<td>" + snapshot.val().destination + "</td>" + "<td>" + snapshot.val().Frequency + "</td>" + "<td>" + moment(nextTrain).format("HH:mm A") + "</td>" + "<td>" + tMinutesTillTrain + "</td>" + "</tr>"); 
 //$("#name-display").html(snapshot.val().trainName);
 //$("#destination-display").html(snapshot.val().destination);
 //$("#frequency-display").html(snapshot.val().Frequency);
